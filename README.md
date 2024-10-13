@@ -1,5 +1,9 @@
 <p align="center"><img src="icon.png"/></p>
 
+# Reflesher
+
+Game based on Starter Kit FPS
+
 # Starter Kit FPS
 
 This package includes a basic template for a first person shooter in Godot 4.3 (stable). Includes features like;
