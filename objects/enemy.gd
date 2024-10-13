@@ -8,14 +8,10 @@ extends Node3D
 
 var health := 100
 var time := 0.0
-#var target_position: Vector3
+
+var shootDate := 0
+
 var destroyed := false
-
-# When ready, save the initial position
-
-#func _ready():
-	#target_position = position
-
 
 func _process(delta):
 	self.look_at(player.position + Vector3(0, 0.5, 0), Vector3.UP, true)  # Look at player
@@ -26,28 +22,24 @@ func _process(delta):
 	time += delta
 
 	position = new_position
-
-# Take damage from player
+	
+	shootIfNeeded()
 
 func clone_self_random_position():
-	# Создаем копию текущего объекта
-	var cloned_object = self.duplicate()  # Копируем текущий узел
-	
-	# Устанавливаем случайную позицию для клона в 3D
+	var cloned_object = self.duplicate()	
 	cloned_object.position = get_random_position()
-	
-	# Добавляем клон в родительский узел
 	get_parent().add_child(cloned_object)
 
-# Функция для генерации случайной позиции в 3D
 func get_random_position() -> Vector3:
-	var random_x = randf_range(-50, 50)  # Произвольная координата X
-	var random_y = randf_range(0, 50)    # Произвольная координата Y (например, высота)
-	var random_z = randf_range(-50, 50)  # Произвольная координата Z
+	var range = 40
+	var random_x = randf_range(-range, range)  # Произвольная координата X
+	var random_y = randf_range(0, range)    # Произвольная координата Y (например, высота)
+	var random_z = randf_range(-range, range)  # Произвольная координата Z
 	return Vector3(random_x, random_y, random_z)
 
 func damage(amount):
-	clone_self_random_position()
+	if randi_range(0, 100) < 20:
+		clone_self_random_position()
 	
 	Audio.play("sounds/enemy_hurt.ogg")
 
@@ -64,18 +56,20 @@ func destroy():
 	destroyed = true
 	queue_free()
 
-# Shoot when timer hits 0
-
-func _on_timer_timeout():
+func shootIfNeeded():
+	
+	if Time.get_unix_time_from_system() < shootDate + 1:
+		return
+		
+	shootDate = Time.get_unix_time_from_system()
+	
 	raycast.force_raycast_update()
 
 	if raycast.is_colliding():
+		print("СВЕЖИЙ КАБАНЧИК!!!11")
 		var collider = raycast.get_collider()
 
 		if collider.has_method("damage"):  # Raycast collides with player
-			
-			# Play muzzle flash animation(s)
-
 			muzzle_a.frame = 0
 			muzzle_a.play("default")
 			muzzle_a.rotation_degrees.z = randf_range(-45, 45)
@@ -86,4 +80,7 @@ func _on_timer_timeout():
 
 			Audio.play("sounds/enemy_attack.ogg")
 
-			collider.damage(5)  # Apply damage to player
+			collider.damage(5)  # Apply damage to player	
+
+func _on_timer_timeout():
+	return
