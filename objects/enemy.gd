@@ -19,7 +19,8 @@ func _ready():
 
 func _process(delta):
 	self.look_at(player.position + Vector3(0, 0.5, 0), Vector3.UP, true)  # Look at player
-	target_position.y += (cos(time * 5) * 1) * delta  # Sine movement (up and down)
+	#target_position.y += (cos(time * 5) * 1) * delta  # Sine movement (up and down)
+	target_position = target_position.move_toward(player.position, 0.03)
 
 	time += delta
 

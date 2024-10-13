@@ -130,6 +130,7 @@ func handle_controls(_delta):
 	# Movement
 	
 	var input := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	print("input x: {%f}\ny: {%f}" % [input.x, input.y])
 	
 	movement_velocity = Vector3(input.x, 0, input.y).normalized() * movement_speed
 	
@@ -193,8 +194,8 @@ func action_shoot():
 		Audio.play(weapon.sound_shoot)
 		
 		container.position.z += 0.25 # Knockback of weapon visual
-		camera.rotation.x += 0.025 # Knockback of camera
-		movement_velocity += Vector3(0, 0, weapon.knockback) # Knockback
+		#camera.rotation.x += 0.025 # Knockback of camera
+		#movement_velocity += Vector3(0, 0, weapon.knockback) # Knockback
 		
 		# Set muzzle flash position, play animation
 		
