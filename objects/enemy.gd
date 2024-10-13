@@ -8,23 +8,24 @@ extends Node3D
 
 var health := 100
 var time := 0.0
-var target_position: Vector3
+#var target_position: Vector3
 var destroyed := false
 
 # When ready, save the initial position
 
-func _ready():
-	target_position = position
+#func _ready():
+	#target_position = position
 
 
 func _process(delta):
 	self.look_at(player.position + Vector3(0, 0.5, 0), Vector3.UP, true)  # Look at player
 	#target_position.y += (cos(time * 5) * 1) * delta  # Sine movement (up and down)
-	target_position = target_position.move_toward(player.position, 0.03)
+	var new_position = position
+	new_position = new_position.move_toward(player.position, 0.04)
 
 	time += delta
 
-	position = target_position
+	position = new_position
 
 # Take damage from player
 
