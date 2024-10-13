@@ -224,6 +224,9 @@ func action_shoot():
 			
 			if collider.has_method("damage"):
 				collider.damage(weapon.damage)
+				if health < 100:
+					health += 1
+					health_updated.emit(health)
 			
 			# Creating an impact animation
 			

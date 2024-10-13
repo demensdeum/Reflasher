@@ -38,7 +38,7 @@ func get_random_position() -> Vector3:
 	return Vector3(random_x, random_y, random_z)
 
 func damage(amount):
-	if randi_range(0, 100) < 20:
+	if randi_range(0, 100) < 50:
 		clone_self_random_position()
 	
 	Audio.play("sounds/enemy_hurt.ogg")
