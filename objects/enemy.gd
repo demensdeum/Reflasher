@@ -29,7 +29,26 @@ func _process(delta):
 
 # Take damage from player
 
+func clone_self_random_position():
+	# Создаем копию текущего объекта
+	var cloned_object = self.duplicate()  # Копируем текущий узел
+	
+	# Устанавливаем случайную позицию для клона в 3D
+	cloned_object.position = get_random_position()
+	
+	# Добавляем клон в родительский узел
+	get_parent().add_child(cloned_object)
+
+# Функция для генерации случайной позиции в 3D
+func get_random_position() -> Vector3:
+	var random_x = randf_range(-50, 50)  # Произвольная координата X
+	var random_y = randf_range(0, 50)    # Произвольная координата Y (например, высота)
+	var random_z = randf_range(-50, 50)  # Произвольная координата Z
+	return Vector3(random_x, random_y, random_z)
+
 func damage(amount):
+	clone_self_random_position()
+	
 	Audio.play("sounds/enemy_hurt.ogg")
 
 	health -= amount

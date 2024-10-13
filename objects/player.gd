@@ -130,7 +130,7 @@ func handle_controls(_delta):
 	# Movement
 	
 	var input := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
-	print("input x: {%f}\ny: {%f}" % [input.x, input.y])
+	#print("input x: {%f}\ny: {%f}" % [input.x, input.y])
 	
 	movement_velocity = Vector3(input.x, 0, input.y).normalized() * movement_speed
 	
